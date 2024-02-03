@@ -1,5 +1,11 @@
 class TransactionController < ApplicationController
   def create
-    render json: { transaction_id: '2342357', recommendation: 'approve' }, status: 200
+    json = Transaction::CreateService.new(transaction_params).perform
+    render json: json, status: 200
   end
+
+  private
+    def transaction_params
+      params.permit(:transaction_id, :merchant_id, :user_id, :card_number, :transaction_date, :transaction_amount, :device_id)
+    end
 end
