@@ -34,7 +34,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_03_193835) do
 
   create_table "transactions", force: :cascade do |t|
     t.datetime "transaction_date"
-    t.decimal "transaction_amount", precision: 10, scale: 2
+    t.float "transaction_amount"
     t.integer "user_id", null: false
     t.integer "merchant_id", null: false
     t.integer "card_id", null: false

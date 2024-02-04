@@ -1,7 +1,9 @@
 class TransactionController < ApplicationController
   def create
-    json = Transaction::CreateService.new(transaction_params).perform
-    render json: json, status: 200
+    protect_request(transaction_params["user_id"]) do
+      json = Transaction::CreateService.new(transaction_params).perform
+      render json: json, status: 200
+    end
   end
 
   private

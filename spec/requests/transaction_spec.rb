@@ -23,6 +23,14 @@ RSpec.describe "Transactions", type: :request do
       expect(json[:transaction_id]).to  eq('2342357')
       expect(json[:recommendation]).to  eq('approve')
     end
+
+    it "should raise error if perform twice" do
+      post "/api/transactions", params: params
+      expect(response).to have_http_status(:success)
+
+      post "/api/transactions", params: params
+      expect(response).to have_http_status(:success)
+    end
   end
 
 end
