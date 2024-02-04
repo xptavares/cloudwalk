@@ -1,17 +1,23 @@
 # Project for Cloudwalk
 
 #### install
+```shell
 git clone git@github.com:xptavares/cloudwalk.git
 cd cloudwalk
 bundle install
 rake db:create db:migrate
 rake transaction:load_from_csv
+```
 
 #### Test
+```shell
 rspec
+```
 
 ##### Run
+```shell
 rails s
+```
 
 #### Doc api
 
