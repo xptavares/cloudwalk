@@ -15,12 +15,15 @@ class Transaction::CreateService
 
   def perform
     # sleep(1000.0/24.0)
-    { transaction_id: '2342357', recommendation: 'approve' }
+    return { transaction_id: transaction_id, recommendation: 'disapprove' } unless validations
+    { transaction_id: transaction_id, recommendation: 'approve' }
   end
 
   private
   def validations
-    Transaction::ValidateAmountService.new(user_id, transaction_date, transaction_amount).perform
+    return false unless Transaction::ValidateAmountService.new(user_id, transaction_date, transaction_amount).perform
+    return false unless Transaction::ValidateChargebackService.new(user_id).perform
+    true
   end
   
 end
