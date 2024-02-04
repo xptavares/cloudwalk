@@ -7,7 +7,7 @@ RSpec.describe Transaction::ValidateAmountService do
   let(:device_id) { 555 }
   let(:user_id) { 555 }
   let(:transaction_date) { Time.zone.now }
-  let(:transaction_amount) { 100.00 }
+  let(:transaction_amount) { 999.00 }
   let(:service) {  Transaction::ValidateAmountService.new(user_id, transaction_date, transaction_amount) }
 
   describe "with no more limit" do

@@ -2,7 +2,7 @@ class Transaction::ValidateAmountService
 
   attr_accessor :user_id, :transaction_date, :transaction_amount, :period
 
-  MAX_VALUE = 100
+  MAX_VALUE = 1000
 
   def initialize(user_id, transaction_date, transaction_amount, period = 1.day.ago)
     @user_id = user_id
@@ -22,10 +22,11 @@ class Transaction::ValidateAmountService
     end
 
     def total
-      sum + transaction_amount
+      sum + transaction_amount.to_f
     end
 
     def validate
+      return true unless transaction_amount
       total > MAX_VALUE 
     end
 end
