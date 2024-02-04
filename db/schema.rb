@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_03_193835) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_04_025609) do
   create_table "cards", force: :cascade do |t|
     t.string "card_number"
     t.integer "user_id", null: false
@@ -50,6 +50,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_03_193835) do
     t.boolean "has_cbk", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "score", default: 0
   end
 
   add_foreign_key "cards", "users"
