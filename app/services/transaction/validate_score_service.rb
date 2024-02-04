@@ -7,7 +7,7 @@ class Transaction::ValidateScoreService
   end
 
   def perform
-    return false if validate
+    return false unless validate
     true
   end
 
@@ -17,6 +17,6 @@ class Transaction::ValidateScoreService
     end
 
     def validate
-      current_user.score
+      current_user.A? || current_user.B?
     end
 end

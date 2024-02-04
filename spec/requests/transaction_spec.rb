@@ -1,11 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe "Transactions", type: :request do
+  let(:user_id) { 97051 }
+  let!(:user) { User.where(id: user_id).first_or_create }
   let(:params) do
     {
       transaction_id: 2342357,
       merchant_id: 29744,
-      user_id: 97051,
+      user_id: user_id,
       card_number: "434505******9116",
       transaction_date: Time.zone.now,
       transaction_amount: 999,

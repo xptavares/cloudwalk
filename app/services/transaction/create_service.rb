@@ -29,6 +29,7 @@ class Transaction::CreateService
     def validations
       return false unless Transaction::ValidateAmountService.new(user_id, transaction_date, transaction_amount).perform
       return false unless Transaction::ValidateChargebackService.new(user_id).perform
+      return false unless Transaction::ValidateScoreService.new(user_id).perform
       return false unless device_id
       true
     end
