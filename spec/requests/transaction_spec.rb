@@ -56,6 +56,7 @@ RSpec.describe "Transactions", type: :request do
 
       expect(json[:transaction_id]).to  eq('2342357')
       expect(json[:recommendation]).to  eq('disapprove')
+      expect(user.reload.E?).to  eq(true)
     end
   end
 end

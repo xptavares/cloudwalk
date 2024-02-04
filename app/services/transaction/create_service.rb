@@ -15,12 +15,15 @@ class Transaction::CreateService
 
   def perform
     # sleep(1000.0/24.0)
+    return { transaction_id: transaction_id, recommendation: 'disapprove' } unless before_validation
     return { transaction_id: transaction_id, recommendation: 'disapprove' } unless validations
 
     transaction = Transaction.new(id: transaction_id, merchant: merchant, user: user, card: card, transaction_date: transaction_date, transaction_amount: transaction_amount, device_id: device_id)
     return { transaction_id: transaction_id, recommendation: 'disapprove' } unless transaction.valid?
 
     transaction.save
+
+    Transaction::UpdateScoreService.new(user.id).perform
 
     { transaction_id: transaction.id.to_s, recommendation: 'approve' }
   end
@@ -30,9 +33,23 @@ class Transaction::CreateService
       return false unless Transaction::ValidateAmountService.new(user_id, transaction_date, transaction_amount).perform
       return false unless Transaction::ValidateChargebackService.new(user_id).perform
       return false unless Transaction::ValidateScoreService.new(user_id).perform
-      return false unless device_id
       true
     end
+
+    def before_validation
+      return false unless transaction_id
+      return false unless merchant_id
+      return false unless user_id
+      return false unless card_number
+      return false unless transaction_date
+      return false unless transaction_amount
+      unless device_id
+        user.E!
+        return false 
+      end
+      true
+    end
+    
 
     def user
       @user ||= User.where(id: user_id).first_or_create
