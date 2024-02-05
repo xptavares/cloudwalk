@@ -1,6 +1,8 @@
 class TransactionController < ApplicationController
   def create
+    # here we can add it to redis.
     protect_request(transaction_params["user_id"]) do
+      # also here we can use a sidekiq job.
       json = Transaction::CreateService.new(transaction_params).perform
       render json: json, status: 200
     end
